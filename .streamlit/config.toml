@@ -1,0 +1,25 @@
+# "SOC Network" cyber theme (design 5): dark navy security-operations look.
+[theme]
+base = "dark"
+primaryColor = "#38bdf8"
+linkColor = "#7dd3fc"
+backgroundColor = "#071224"
+secondaryBackgroundColor = "#0c1d3a"
+textColor = "#dbe7f7"
+borderColor = "#1d3a66"
+showWidgetBorder = true
+baseRadius = "10px"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+headingFont = "'Space Grotesk':https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap"
+codeFont = "'JetBrains Mono':https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+codeBackgroundColor = "#050d1b"
+chartCategoricalColors = ["#38bdf8", "#f472b6", "#fbbf24", "#34d399", "#a78bfa", "#fb7185", "#22d3ee"]
+dataframeHeaderBackgroundColor = "#0f2547"
+dataframeBorderColor = "#1d3a66"
+showSidebarBorder = true
+
+[theme.sidebar]
+backgroundColor = "#06101f"
+secondaryBackgroundColor = "#0f2547"
+textColor = "#c9d8ee"
+borderColor = "#16294a"

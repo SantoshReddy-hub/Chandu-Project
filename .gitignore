@@ -1,0 +1,19 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Local data: scan database, secret key for ownership tokens, logs, generated reports
+data/
+reports/
+.env
+
+# Paper build tools (reinstall with: cd paper && npm install)
+paper/node_modules/
+
+# Editor / OS / Office temp files
+.claude/
+
+.DS_Store
+~$*
+.agents/

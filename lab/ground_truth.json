@@ -1,0 +1,32 @@
+{
+  "DVWA": [
+    {"id": "sqli", "name": "SQL Injection", "owasp": "A03", "path": "/vulnerabilities/sqli/", "keywords": ["sql injection"]},
+    {"id": "sqli_blind", "name": "Blind SQL Injection", "owasp": "A03", "path": "/vulnerabilities/sqli_blind/", "keywords": ["sql injection"]},
+    {"id": "xss_r", "name": "Reflected XSS", "owasp": "A03", "path": "/vulnerabilities/xss_r/", "keywords": ["cross site scripting", "xss"]},
+    {"id": "xss_s", "name": "Stored XSS", "owasp": "A03", "path": "/vulnerabilities/xss_s/", "keywords": ["cross site scripting"]},
+    {"id": "exec", "name": "OS Command Injection", "owasp": "A03", "path": "/vulnerabilities/exec/", "keywords": ["command injection"]},
+    {"id": "fi", "name": "File Inclusion / Path Traversal", "owasp": "A01", "path": "/vulnerabilities/fi/", "keywords": ["path traversal", "file inclusion"]},
+    {"id": "csrf", "name": "Cross-Site Request Forgery", "owasp": "A01", "path": "/vulnerabilities/", "keywords": ["anti-csrf", "csrf"]},
+    {"id": "csp", "name": "Missing Content-Security-Policy", "owasp": "A05", "path": "/", "keywords": ["content security policy", "content-security-policy"]},
+    {"id": "clickjack", "name": "Missing clickjacking protection", "owasp": "A05", "path": "/", "keywords": ["anti-clickjacking", "x-frame-options"]},
+    {"id": "nosniff", "name": "Missing X-Content-Type-Options", "owasp": "A05", "path": "/", "keywords": ["x-content-type-options"]},
+    {"id": "cookie_httponly", "name": "Session cookie without HttpOnly", "owasp": "A05", "path": "/", "keywords": ["httponly"]},
+    {"id": "cookie_samesite", "name": "Session cookie without SameSite", "owasp": "A05", "path": "/", "keywords": ["samesite"]},
+    {"id": "server_version", "name": "Server version disclosure", "owasp": "A05", "path": "/", "keywords": ["server leaks version", "version disclosed in server"]},
+    {"id": "phpinfo", "name": "Exposed phpinfo()", "owasp": "A05", "path": "/phpinfo.php", "keywords": ["phpinfo"]},
+    {"id": "plain_http", "name": "No HTTPS (login over HTTP)", "owasp": "A02", "path": "/", "keywords": ["plain http"]},
+    {"id": "outdated", "name": "Outdated Apache version", "owasp": "A06", "path": "/", "keywords": ["known vulnerabilities", "outdated"]}
+  ],
+  "OWASP Juice Shop": [
+    {"id": "sqli_search", "name": "SQL Injection in product search", "owasp": "A03", "path": "/rest/products/search", "keywords": ["sql injection"]},
+    {"id": "ftp", "name": "Exposed /ftp directory", "owasp": "A01", "path": "/ftp", "keywords": ["exposed file directory", "directory browsing", "directory listing"]},
+    {"id": "cors", "name": "Permissive CORS policy", "owasp": "A05", "path": "/", "keywords": ["cross-domain misconfiguration", "cors"]},
+    {"id": "csp", "name": "Missing Content-Security-Policy", "owasp": "A05", "path": "/", "keywords": ["content security policy", "content-security-policy"]},
+    {"id": "plain_http", "name": "No HTTPS", "owasp": "A02", "path": "/", "keywords": ["plain http"]},
+    {"id": "outdated_js", "name": "Vulnerable JavaScript library", "owasp": "A06", "path": "/", "keywords": ["vulnerable js library", "known vulnerabilities"]},
+    {"id": "robots", "name": "robots.txt discloses hidden path", "owasp": "A05", "path": "/robots.txt", "keywords": ["robots.txt"]},
+    {"id": "error_disclosure", "name": "Verbose error / stack trace", "owasp": "A05", "path": "/", "keywords": ["error", "stack trace"]},
+    {"id": "permissions_policy", "name": "Missing Permissions-Policy", "owasp": "A05", "path": "/", "keywords": ["permissions-policy"]},
+    {"id": "referrer_policy", "name": "Missing Referrer-Policy", "owasp": "A05", "path": "/", "keywords": ["referrer-policy"]}
+  ]
+}

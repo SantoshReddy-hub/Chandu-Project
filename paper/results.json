@@ -1,0 +1,288 @@
+{
+  "results": [
+    {
+      "name": "DVWA",
+      "scan_id": 44,
+      "duration_s": 907.8,
+      "findings": 44,
+      "raw_instances": 166,
+      "severity": {
+        "Critical": 10,
+        "High": 4,
+        "Medium": 5,
+        "Low": 9,
+        "Info": 16
+      },
+      "owasp": {
+        "A01:2021": 2,
+        "A03:2021": 19,
+        "A06:2021": 1,
+        "A05:2021": 16,
+        "A02:2021": 1,
+        "A08:2021": 2,
+        "Other": 1,
+        "A04:2021": 2
+      },
+      "engines": {
+        "ZAP": 32,
+        "Both": 4,
+        "Custom": 8
+      },
+      "zap_only": {
+        "TP": 14,
+        "FN": 2,
+        "FP*": 8,
+        "Precision": 0.6363636363636364,
+        "Recall": 0.875,
+        "F1": 0.7368421052631579
+      },
+      "combined": {
+        "TP": 16,
+        "FN": 0,
+        "FP*": 8,
+        "Precision": 0.6666666666666666,
+        "Recall": 1.0,
+        "F1": 0.8
+      },
+      "per_vuln": [
+        {
+          "name": "SQL Injection",
+          "owasp": "A03",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Blind SQL Injection",
+          "owasp": "A03",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Reflected XSS",
+          "owasp": "A03",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Stored XSS",
+          "owasp": "A03",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "OS Command Injection",
+          "owasp": "A03",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "File Inclusion / Path Traversal",
+          "owasp": "A01",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Cross-Site Request Forgery",
+          "owasp": "A01",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Missing Content-Security-Policy",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Missing clickjacking protection",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Missing X-Content-Type-Options",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Session cookie without HttpOnly",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Session cookie without SameSite",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Server version disclosure",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Exposed phpinfo()",
+          "owasp": "A05",
+          "zap": false,
+          "combined": true
+        },
+        {
+          "name": "No HTTPS (login over HTTP)",
+          "owasp": "A02",
+          "zap": false,
+          "combined": true
+        },
+        {
+          "name": "Outdated Apache version",
+          "owasp": "A06",
+          "zap": true,
+          "combined": true
+        }
+      ],
+      "fp_titles": [
+        "Cross Site Scripting (Reflected)",
+        "Cross Site Scripting (Reflected)",
+        "Cross Site Scripting (Reflected)",
+        "SQL Injection - MySQL",
+        "Sub Resource Integrity Attribute Missing",
+        "In Page Banner Information Leak",
+        "Information Disclosure - Debug Error Messages",
+        "Cross-Domain JavaScript Source File Inclusion"
+      ]
+    },
+    {
+      "name": "OWASP Juice Shop",
+      "scan_id": 41,
+      "duration_s": 2772.9,
+      "findings": 10,
+      "raw_instances": 394,
+      "severity": {
+        "High": 1,
+        "Medium": 3,
+        "Low": 1,
+        "Info": 5
+      },
+      "owasp": {
+        "A05:2021": 5,
+        "Other": 3,
+        "A01:2021": 1,
+        "A02:2021": 1
+      },
+      "engines": {
+        "Both": 1,
+        "ZAP": 4,
+        "Custom": 5
+      },
+      "zap_only": {
+        "TP": 3,
+        "FN": 7,
+        "FP*": 0,
+        "Precision": 1.0,
+        "Recall": 0.3,
+        "F1": 0.4615384615384615
+      },
+      "combined": {
+        "TP": 8,
+        "FN": 2,
+        "FP*": 0,
+        "Precision": 1.0,
+        "Recall": 0.8,
+        "F1": 0.888888888888889
+      },
+      "per_vuln": [
+        {
+          "name": "SQL Injection in product search",
+          "owasp": "A03",
+          "zap": false,
+          "combined": false
+        },
+        {
+          "name": "Exposed /ftp directory",
+          "owasp": "A01",
+          "zap": false,
+          "combined": true
+        },
+        {
+          "name": "Permissive CORS policy",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Missing Content-Security-Policy",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "No HTTPS",
+          "owasp": "A02",
+          "zap": false,
+          "combined": true
+        },
+        {
+          "name": "Vulnerable JavaScript library",
+          "owasp": "A06",
+          "zap": false,
+          "combined": false
+        },
+        {
+          "name": "robots.txt discloses hidden path",
+          "owasp": "A05",
+          "zap": false,
+          "combined": true
+        },
+        {
+          "name": "Verbose error / stack trace",
+          "owasp": "A05",
+          "zap": true,
+          "combined": true
+        },
+        {
+          "name": "Missing Permissions-Policy",
+          "owasp": "A05",
+          "zap": false,
+          "combined": true
+        },
+        {
+          "name": "Missing Referrer-Policy",
+          "owasp": "A05",
+          "zap": false,
+          "combined": true
+        }
+      ],
+      "fp_titles": []
+    }
+  ],
+  "validation": [
+    {
+      "site": "Google (Quick)",
+      "before": {
+        "correct": 6,
+        "false_pos": 2,
+        "missed": 1
+      },
+      "after": {
+        "correct": 8,
+        "false_pos": 0,
+        "missed": 0
+      }
+    },
+    {
+      "site": "Instagram (Quick)",
+      "before": {
+        "correct": 2,
+        "false_pos": 3,
+        "missed": 2
+      },
+      "after": {
+        "correct": 5,
+        "false_pos": 0,
+        "missed": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+# Isolated lab: OWASP ZAP + deliberately vulnerable targets.
+# All ports bind to 127.0.0.1 only, so nothing is exposed to your network.
+services:
+  zap:
+    image: zaproxy/zap-stable
+    # Java heap capped at 2 GB and the container at 3 GB: an uncapped active scan
+    # was killed by Docker for running out of memory (OOMKilled).
+    mem_limit: 3g
+    command: >
+      zap.sh -Xmx2g -daemon -host 0.0.0.0 -port 8080
+      -config api.key=${ZAP_API_KEY:-changeme-lab-key}
+      -config api.addrs.addr.name=.*
+      -config api.addrs.addr.regex=true
+    ports:
+      - "127.0.0.1:8090:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # lets ZAP reach sites running on this Mac
+    networks: [lab]
+
+  dvwa:
+    image: vulnerables/web-dvwa
+    platform: linux/amd64
+    ports:
+      - "127.0.0.1:8081:80"
+    networks: [lab]
+
+  juice-shop:
+    image: bkimminich/juice-shop
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks: [lab]
+
+networks:
+  lab:
+    driver: bridge

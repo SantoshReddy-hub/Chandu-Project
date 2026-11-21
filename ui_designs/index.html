@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scanner UI designs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;600&family=Rajdhani:wght@500;600;700&family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;600&display=swap">
+<style>
+/* ------------------------------------------------------------------ shared layout */
+* { box-sizing: border-box; margin: 0; }
+html, body { height: 100%; }
+body { cursor: none; overflow-x: hidden; transition: background .4s; }
+a, button, input, label { cursor: none; }
+#bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.switcher { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 50; display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: rgba(0,0,0,.55); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.15); }
+.switcher button { font: 600 13px/1 'Inter', sans-serif; color: #dfe6f0; background: transparent; border: 0; padding: 9px 14px; border-radius: 999px; }
+.switcher button.on { background: #fff; color: #0b0f17; }
+.app { position: relative; z-index: 1; display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+.side { padding: 90px 24px 24px; display: flex; flex-direction: column; gap: 6px; }
+.side .nav { padding: 11px 14px; border-radius: 10px; font-size: 15px; }
+.side .status { margin-top: 18px; font-size: 13px; display: flex; align-items: center; gap: 8px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.main { padding: 86px 56px 56px; max-width: 1100px; }
+.kicker { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; }
+h1 { margin: 10px 0 8px; }
+.sub { font-size: 16px; opacity: .8; margin-bottom: 28px; }
+.panel { padding: 26px; margin-bottom: 20px; }
+.label { font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; opacity: .85; }
+.demo { display: flex; gap: 12px; margin-bottom: 18px; }
+.demo button { padding: 10px 16px; font-size: 14px; }
+.url { width: 100%; padding: 15px 18px; font-size: 16px; outline: none; }
+.modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 18px; }
+.mode { padding: 16px; }
+.mode b { display: block; font-size: 16px; margin-bottom: 6px; }
+.mode span { font-size: 13px; opacity: .78; }
+.go { margin-top: 20px; display: flex; align-items: center; gap: 18px; }
+.go button { padding: 14px 30px; font-size: 16px; font-weight: 700; }
+.go small { opacity: .75; font-size: 13px; }
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.stat { padding: 16px; text-align: center; }
+.stat .n { font-size: 34px; font-weight: 700; }
+.stat .t { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; opacity: .8; margin-top: 4px; }
+.bar { height: 6px; border-radius: 3px; margin-top: 18px; overflow: hidden; }
+.bar i { display: block; height: 100%; width: 62%; }
+.cursor, .cursor-ring { position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none; transform: translate(-50%, -50%); }
+.trail { position: fixed; left: 0; top: 0; z-index: 99; pointer-events: none; transform: translate(-50%, -50%); border-radius: 50%; }
+.tagline { position: fixed; bottom: 14px; right: 18px; z-index: 50; font: 12px 'Inter', sans-serif; color: rgba(255,255,255,.55); }
+
+/* ------------------------------------------------------------------ 1. Neon Grid */
+.t1 { background: #05060f; color: #e8f6ff; font-family: 'Rajdhani', sans-serif; }
+.t1 h1 { font-family: 'Orbitron', sans-serif; font-size: 42px; font-weight: 900; letter-spacing: 1px; background: linear-gradient(90deg,#00f0ff,#ff2bd6); -webkit-background-clip: text; color: transparent; text-shadow: 0 0 30px rgba(0,240,255,.25); }
+.t1 .kicker { color: #00f0ff; font-family: 'Share Tech Mono', monospace; }
+.t1 .side { background: rgba(5,8,25,.8); border-right: 1px solid rgba(0,240,255,.25); }
+.t1 .nav.on { background: rgba(0,240,255,.12); color: #00f0ff; box-shadow: inset 3px 0 0 #00f0ff; }
+.t1 .panel { background: rgba(8,12,35,.75); border: 1px solid rgba(0,240,255,.3); border-radius: 14px; box-shadow: 0 0 30px rgba(0,240,255,.08), inset 0 0 30px rgba(255,43,214,.04); }
+.t1 .url { background: #030512; border: 1px solid #00f0ff; color: #00f0ff; border-radius: 10px; font-family: 'Share Tech Mono', monospace; box-shadow: 0 0 14px rgba(0,240,255,.35); }
+.t1 .demo button { background: transparent; border: 1px solid #ff2bd6; color: #ff8ef0; border-radius: 8px; }
+.t1 .mode { border: 1px solid rgba(255,255,255,.12); border-radius: 12px; }
+.t1 .mode.on { border-color: #00f0ff; box-shadow: 0 0 18px rgba(0,240,255,.35); }
+.t1 .go button { background: linear-gradient(90deg,#00f0ff,#ff2bd6); color: #05060f; border: 0; border-radius: 10px; box-shadow: 0 0 24px rgba(255,43,214,.5); font-family: 'Orbitron'; }
+.t1 .stat { border: 1px solid rgba(0,240,255,.25); border-radius: 12px; }
+.t1 .bar { background: #11163a; } .t1 .bar i { background: linear-gradient(90deg,#00f0ff,#ff2bd6); box-shadow: 0 0 12px #00f0ff; }
+.t1 .grid-floor { position: fixed; left: -50%; right: -50%; bottom: -10%; height: 55%; z-index: 0; background-image: linear-gradient(rgba(0,240,255,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,43,214,.35) 1px, transparent 1px); background-size: 60px 60px; transform: perspective(500px) rotateX(62deg); animation: floor 3s linear infinite; mask-image: linear-gradient(to top, #000 30%, transparent); }
+@keyframes floor { to { background-position: 0 60px, 0 0; } }
+
+/* ------------------------------------------------------------------ 2. Matrix Terminal */
+.t2 { background: #000a02; color: #b6ffc4; font-family: 'JetBrains Mono', monospace; }
+.t2 h1 { font-family: 'Share Tech Mono', monospace; font-size: 40px; color: #39ff6a; text-shadow: 0 0 12px rgba(57,255,106,.7); }
+.t2 h1::after { content: '_'; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.t2 .kicker { color: #39ff6a; }
+.t2 .side { background: rgba(0,12,3,.9); border-right: 1px dashed #1f7a35; }
+.t2 .nav::before { content: '> '; color: #39ff6a; }
+.t2 .nav.on { color: #000; background: #39ff6a; }
+.t2 .panel { background: rgba(0,14,4,.88); border: 1px solid #1f7a35; border-radius: 4px; }
+.t2 .url { background: #000; border: 1px solid #39ff6a; color: #39ff6a; border-radius: 2px; }
+.t2 .demo button { background: #002a0b; color: #39ff6a; border: 1px solid #39ff6a; border-radius: 2px; }
+.t2 .mode { border: 1px dashed #1f7a35; border-radius: 2px; }
+.t2 .mode.on { border: 1px solid #39ff6a; background: rgba(57,255,106,.08); }
+.t2 .go button { background: #39ff6a; color: #000; border: 0; border-radius: 2px; }
+.t2 .stat { border: 1px solid #1f7a35; border-radius: 2px; }
+.t2 .bar { background: #022a0c; } .t2 .bar i { background: #39ff6a; }
+
+/* ------------------------------------------------------------------ 3. Red Team HUD */
+.t3 { background: radial-gradient(circle at 70% 20%, #2a0806, #0b0303 60%); color: #ffe2d6; font-family: 'Rajdhani', sans-serif; }
+.t3 h1 { font-family: 'Orbitron', sans-serif; font-size: 40px; color: #ff4b2b; letter-spacing: 2px; text-shadow: 0 0 18px rgba(255,75,43,.6); }
+.t3 .kicker { color: #ffb02e; font-family: 'Share Tech Mono', monospace; }
+.t3 .side { background: rgba(20,4,3,.85); border-right: 1px solid rgba(255,75,43,.35); }
+.t3 .nav.on { color: #ffb02e; border: 1px solid #ffb02e; clip-path: polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px); }
+.t3 .panel { background: rgba(25,6,4,.8); border: 1px solid rgba(255,75,43,.45); clip-path: polygon(18px 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%,0 18px); }
+.t3 .url { background: #150302; border: 1px solid #ffb02e; color: #ffb02e; font-family: 'Share Tech Mono', monospace; }
+.t3 .demo button { background: transparent; color: #ff4b2b; border: 1px solid #ff4b2b; }
+.t3 .mode { border: 1px solid rgba(255,176,46,.3); }
+.t3 .mode.on { border-color: #ff4b2b; background: rgba(255,75,43,.12); }
+.t3 .go button { background: #ff4b2b; color: #1a0402; border: 0; font-family: 'Orbitron'; letter-spacing: 2px; clip-path: polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px); }
+.t3 .stat { border-top: 2px solid #ff4b2b; background: rgba(255,75,43,.06); }
+.t3 .bar { background: #3a0e08; } .t3 .bar i { background: repeating-linear-gradient(90deg,#ff4b2b 0 10px,#ffb02e 10px 14px); }
+.t3 .scan-lines { position: fixed; inset: 0; z-index: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px); }
+
+/* ------------------------------------------------------------------ 4. Cyberpunk Glass */
+.t4 { background: #0c0620; color: #f1ecff; font-family: 'Space Grotesk', sans-serif; }
+.t4 h1 { font-size: 44px; font-weight: 700; background: linear-gradient(90deg,#c084fc,#60a5fa,#f472b6); -webkit-background-clip: text; color: transparent; }
+.t4 .kicker { color: #c4b5fd; }
+.t4 .side { background: rgba(255,255,255,.04); backdrop-filter: blur(18px); border-right: 1px solid rgba(255,255,255,.08); }
+.t4 .nav.on { background: rgba(255,255,255,.1); }
+.t4 .panel { background: rgba(255,255,255,.06); backdrop-filter: blur(18px); border: 1px solid rgba(255,255,255,.12); border-radius: 22px; }
+.t4 .url { background: rgba(0,0,0,.3); border: 1px solid rgba(196,181,253,.4); color: #fff; border-radius: 14px; }
+.t4 .demo button { background: rgba(255,255,255,.08); color: #e9d5ff; border: 1px solid rgba(255,255,255,.15); border-radius: 999px; }
+.t4 .mode { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 16px; }
+.t4 .mode.on { border-color: #c084fc; box-shadow: 0 0 0 3px rgba(192,132,252,.25); }
+.t4 .go button { background: linear-gradient(90deg,#a855f7,#3b82f6); color: #fff; border: 0; border-radius: 14px; box-shadow: 0 10px 30px rgba(168,85,247,.45); }
+.t4 .stat { background: rgba(255,255,255,.05); border-radius: 16px; }
+.t4 .bar { background: rgba(255,255,255,.1); } .t4 .bar i { background: linear-gradient(90deg,#a855f7,#3b82f6,#ec4899); }
+.t4 .blob { position: fixed; z-index: 0; border-radius: 50%; filter: blur(80px); opacity: .55; pointer-events: none; animation: drift 14s ease-in-out infinite alternate; }
+@keyframes drift { to { transform: translate(80px, -60px) scale(1.15); } }
+
+/* ------------------------------------------------------------------ 5. SOC Network */
+.t5 { background: #071224; color: #dbe7f7; font-family: 'Inter', sans-serif; }
+.t5 h1 { font-family: 'Space Grotesk', sans-serif; font-size: 40px; font-weight: 700; color: #f2f7ff; }
+.t5 h1 span { color: #38bdf8; }
+.t5 .kicker { color: #38bdf8; font-family: 'JetBrains Mono', monospace; }
+.t5 .side { background: rgba(6,16,33,.85); border-right: 1px solid #16294a; }
+.t5 .nav.on { background: #0f2547; color: #7dd3fc; }
+.t5 .panel { background: rgba(10,24,48,.82); border: 1px solid #1d3a66; border-radius: 12px; }
+.t5 .url { background: #050d1b; border: 1px solid #2a4d82; color: #e6f1ff; border-radius: 8px; font-family: 'JetBrains Mono', monospace; }
+.t5 .url:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,.25); }
+.t5 .demo button { background: #0f2547; color: #7dd3fc; border: 1px solid #1d3a66; border-radius: 8px; }
+.t5 .mode { border: 1px solid #1d3a66; border-radius: 10px; }
+.t5 .mode.on { border-color: #38bdf8; background: rgba(56,189,248,.08); }
+.t5 .go button { background: #38bdf8; color: #04101f; border: 0; border-radius: 8px; }
+.t5 .stat { border: 1px solid #1d3a66; border-radius: 10px; background: rgba(5,13,27,.6); }
+.t5 .bar { background: #0f2547; } .t5 .bar i { background: #38bdf8; }
+</style>
+</head>
+<body class="t1">
+<canvas id="bg"></canvas>
+<div id="decor"></div>
+
+<div class="switcher" id="switcher">
+  <button data-t="1" class="on">1 · Neon Grid</button>
+  <button data-t="2">2 · Matrix Terminal</button>
+  <button data-t="3">3 · Red Team HUD</button>
+  <button data-t="4">4 · Cyberpunk Glass</button>
+  <button data-t="5">5 · SOC Network</button>
+</div>
+
+<div class="app">
+  <aside class="side">
+    <div class="nav on">New scan</div>
+    <div class="nav">Results</div>
+    <div class="nav">Scan history</div>
+    <div class="status"><span class="dot" id="zapdot"></span> ZAP engine connected</div>
+  </aside>
+  <main class="main">
+    <p class="kicker">Y23-HTE-PROJECT-150 · OWASP ZAP + custom checks</p>
+    <h1 id="title">VULN SCANNER</h1>
+    <p class="sub">Paste a website address to check its security.</p>
+
+    <section class="panel">
+      <p class="label">Demo targets</p>
+      <div class="demo"><button>DVWA</button><button>OWASP Juice Shop</button></div>
+      <p class="label">Enter URL</p>
+      <input class="url" value="http://127.0.0.1:8081" aria-label="Target URL">
+      <div class="modes">
+        <div class="mode on"><b>Quick</b><span>Headers, cookies, HTTPS, files · ~10 s</span></div>
+        <div class="mode"><b>Standard</b><span>+ ZAP crawl and passive scan · ~2 min</span></div>
+        <div class="mode"><b>Full</b><span>+ active attack tests · verified owners</span></div>
+      </div>
+      <div class="go"><button id="start">START SCAN</button><small>I own this website or have permission</small></div>
+      <div class="bar"><i></i></div>
+    </section>
+
+    <section class="panel">
+      <p class="label">Last scan · DVWA · 44 findings</p>
+      <div class="stats">
+        <div class="stat"><div class="n" style="color:#ff3b5c">10</div><div class="t">Critical</div></div>
+        <div class="stat"><div class="n" style="color:#ff7a45">4</div><div class="t">High</div></div>
+        <div class="stat"><div class="n" style="color:#ffc53d">5</div><div class="t">Medium</div></div>
+        <div class="stat"><div class="n" style="color:#40a9ff">9</div><div class="t">Low</div></div>
+        <div class="stat"><div class="n" style="color:#a0aec0">16</div><div class="t">Info</div></div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+<p class="tagline" id="tagline"></p>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const canvas = $('#bg'), ctx = canvas.getContext('2d');
+let W, H, mouse = { x: innerWidth / 2, y: innerHeight / 2 }, ringPos = { ...mouse }, theme = 1, raf, trails = [];
+const resize = () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight; };
+addEventListener('resize', resize); resize();
+addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+
+const THEMES = {
+  1: { title: 'VULN SCANNER', tag: 'Neon Grid: retro-future grid floor, glowing neon trail cursor',
+       cur: 'width:10px;height:10px;border-radius:50%;background:#00f0ff;box-shadow:0 0 12px #00f0ff,0 0 24px #00f0ff',
+       ring: 'width:38px;height:38px;border-radius:50%;border:1.5px solid #ff2bd6;box-shadow:0 0 14px #ff2bd6', dot: '#00f0ff', trail: '#00f0ff' },
+  2: { title: 'root@scanner:~$ scan', tag: 'Matrix Terminal: falling code rain, block terminal cursor',
+       cur: 'width:12px;height:20px;background:#39ff6a;box-shadow:0 0 10px #39ff6a;animation:blink 1s steps(1) infinite',
+       ring: 'display:none', dot: '#39ff6a' },
+  3: { title: 'TARGET ACQUIRED', tag: 'Red Team HUD: radar sweep, targeting reticle cursor',
+       cur: 'width:6px;height:6px;background:#ff4b2b;border-radius:50%',
+       ring: 'width:54px;height:54px;border:1.5px solid #ffb02e;border-radius:50%;background:radial-gradient(circle,transparent 60%,rgba(255,75,43,.12));', dot: '#ffb02e' },
+  4: { title: 'Vulnerability Scanner', tag: 'Cyberpunk Glass: glowing blobs, frosted glass, soft orb cursor',
+       cur: 'width:8px;height:8px;border-radius:50%;background:#fff',
+       ring: 'width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(192,132,252,.45),rgba(96,165,250,.15) 45%,transparent 70%);mix-blend-mode:screen', dot: '#c084fc' },
+  5: { title: 'Threat <span>Scanner</span>', tag: 'SOC Network: live node network that links to your pointer',
+       cur: 'width:8px;height:8px;border-radius:50%;background:#38bdf8;box-shadow:0 0 10px #38bdf8',
+       ring: 'width:30px;height:30px;border-radius:50%;border:1px solid rgba(56,189,248,.6)', dot: '#38bdf8' },
+};
+
+// ---------------------------------------------------------------- background effects
+let drops = [], nodes = [], sweep = 0;
+function setupBg(t) {
+  ctx.clearRect(0, 0, W, H);
+  const decor = $('#decor'); decor.innerHTML = '';
+  if (t === 1) decor.innerHTML = '<div class="grid-floor"></div>';
+  if (t === 2) drops = Array.from({ length: Math.ceil(W / 16) }, () => Math.random() * -H / 16);
+  if (t === 3) decor.innerHTML = '<div class="scan-lines"></div>';
+  if (t === 4) decor.innerHTML = '<div class="blob" style="width:520px;height:520px;background:#7c3aed;left:-120px;top:-80px"></div><div class="blob" style="width:460px;height:460px;background:#2563eb;right:-100px;top:30%;animation-delay:-5s"></div><div class="blob" style="width:380px;height:380px;background:#db2777;left:35%;bottom:-120px;animation-delay:-9s"></div>';
+  if (t === 5) nodes = Array.from({ length: 90 }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .5, vy: (Math.random() - .5) * .5 }));
+}
+const CH = 'アカサタナハマヤラワ0123456789ABCDEF<>/{}$#'.split('');
+function drawBg() {
+  if (theme === 2) {
+    ctx.fillStyle = 'rgba(0,10,2,.12)'; ctx.fillRect(0, 0, W, H);
+    ctx.font = '15px JetBrains Mono';
+    drops.forEach((y, i) => {
+      const x = i * 16, near = Math.abs(x - mouse.x) < 90;
+      ctx.fillStyle = near ? '#d6ffe0' : '#1fcf4e';
+      ctx.fillText(CH[(Math.random() * CH.length) | 0], x, y * 16);
+      drops[i] = y * 16 > H && Math.random() > .975 ? 0 : y + (near ? 1.6 : 1);
+    });
+  } else if (theme === 3) {
+    ctx.clearRect(0, 0, W, H);
+    const cx = W - 260, cy = 260, r = 190;
+    ctx.strokeStyle = 'rgba(255,75,43,.25)'; ctx.lineWidth = 1;
+    [1, .66, .33].forEach((k) => { ctx.beginPath(); ctx.arc(cx, cy, r * k, 0, Math.PI * 2); ctx.stroke(); });
+    ctx.beginPath(); ctx.moveTo(cx - r, cy); ctx.lineTo(cx + r, cy); ctx.moveTo(cx, cy - r); ctx.lineTo(cx, cy + r); ctx.stroke();
+    sweep += .025;
+    const g = ctx.createConicGradient(sweep, cx, cy);
+    g.addColorStop(0, 'rgba(255,176,46,.35)'); g.addColorStop(.12, 'rgba(255,176,46,0)'); g.addColorStop(1, 'rgba(255,176,46,0)');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
+    // a "blip" where the pointer direction points
+    const a = Math.atan2(mouse.y - cy, mouse.x - cx), d = Math.min(r * .8, Math.hypot(mouse.x - cx, mouse.y - cy) / 4);
+    ctx.fillStyle = '#ff4b2b'; ctx.beginPath(); ctx.arc(cx + Math.cos(a) * d, cy + Math.sin(a) * d, 4, 0, Math.PI * 2); ctx.fill();
+  } else if (theme === 5) {
+    ctx.clearRect(0, 0, W, H);
+    for (const n of nodes) {
+      n.x += n.vx; n.y += n.vy;
+      if (n.x < 0 || n.x > W) n.vx *= -1; if (n.y < 0 || n.y > H) n.vy *= -1;
+      const dm = Math.hypot(n.x - mouse.x, n.y - mouse.y);
+      if (dm < 170) { n.x += (mouse.x - n.x) * .004; n.y += (mouse.y - n.y) * .004;
+        ctx.strokeStyle = `rgba(56,189,248,${1 - dm / 170})`; ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke(); }
+      ctx.fillStyle = 'rgba(125,211,252,.8)'; ctx.beginPath(); ctx.arc(n.x, n.y, 1.8, 0, Math.PI * 2); ctx.fill();
+    }
+    for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+      const a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < 110) { ctx.strokeStyle = `rgba(56,189,248,${.18 * (1 - d / 110)})`; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); }
+    }
+  }
+}
+
+// ---------------------------------------------------------------- cursor
+const cur = $('#cur'), ring = $('#ring');
+function setupCursor(t) {
+  cur.style.cssText = THEMES[t].cur; ring.style.cssText = THEMES[t].ring;
+  trails.forEach((t) => t.el.remove()); trails = [];
+  if (t === 1) for (let i = 0; i < 14; i++) {
+    const d = document.createElement('div'); d.className = 'trail';
+    const s = 9 - i * .5; d.style.cssText = `width:${s}px;height:${s}px;background:${i % 2 ? '#ff2bd6' : '#00f0ff'};opacity:${1 - i / 14};box-shadow:0 0 8px currentColor`;
+    document.body.appendChild(d); trails.push({ el: d, x: mouse.x, y: mouse.y });
+  }
+}
+function drawCursor() {
+  cur.style.left = mouse.x + 'px'; cur.style.top = mouse.y + 'px';
+  const ease = theme === 4 ? .08 : .2;
+  ringPos.x += (mouse.x - ringPos.x) * ease; ringPos.y += (mouse.y - ringPos.y) * ease;
+  ring.style.left = ringPos.x + 'px'; ring.style.top = ringPos.y + 'px';
+  if (theme === 3) ring.style.transform = `translate(-50%,-50%) rotate(${performance.now() / 20}deg)`;
+  let px = mouse.x, py = mouse.y;
+  trails.forEach((t) => { t.x += (px - t.x) * .45; t.y += (py - t.y) * .45; t.el.style.left = t.x + 'px'; t.el.style.top = t.y + 'px'; px = t.x; py = t.y; });
+}
+// grow the cursor over clickable things
+document.querySelectorAll('button, .mode, input, .nav').forEach((el) => {
+  el.addEventListener('mouseenter', () => ring.style.scale = '1.6');
+  el.addEventListener('mouseleave', () => ring.style.scale = '1');
+});
+
+function loop() { drawBg(); drawCursor(); raf = requestAnimationFrame(loop); }
+function setTheme(t) {
+  theme = t; document.body.className = 't' + t;
+  $('#title').innerHTML = THEMES[t].title; $('#tagline').textContent = THEMES[t].tag;
+  $('#zapdot').style.background = THEMES[t].dot; $('#zapdot').style.boxShadow = `0 0 8px ${THEMES[t].dot}`;
+  document.querySelectorAll('#switcher button').forEach((b) => b.classList.toggle('on', +b.dataset.t === t));
+  setupBg(t); setupCursor(t);
+  history.replaceState(null, '', '#' + t);
+}
+document.querySelectorAll('#switcher button').forEach((b) => b.addEventListener('click', () => setTheme(+b.dataset.t)));
+document.querySelectorAll('.mode').forEach((m) => m.addEventListener('click', () => { document.querySelectorAll('.mode').forEach((x) => x.classList.remove('on')); m.classList.add('on'); }));
+setTheme(+(location.hash.slice(1)) || 1); loop();
+</script>
+</body>
+</html>
